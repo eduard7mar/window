@@ -1,4 +1,4 @@
-const modals = () => {
+const modals = (state) => {
   function bindModal(
     triggerSelector,
     modalSelector,
