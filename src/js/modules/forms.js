@@ -32,12 +32,6 @@ const forms = (state) => {
     clearForm();
   };
 
-  const clearState = (stateObj) => {
-    for (let key in stateObj) {
-      stateObj[key] = "";
-    }
-  };
-
   function closeModal() {
     windows.forEach((item) => {
       item.style.display = "none";
@@ -68,8 +62,10 @@ const forms = (state) => {
         })
         .catch(() => (statusMessage.textContent = message.failure))
         .finally(() => {
+          Object.keys(state).forEach((key) => delete state[key]);
+
           clearInputs();
-          clearState(state);
+          
           setTimeout(() => {
             statusMessage.remove();
             closeModal();

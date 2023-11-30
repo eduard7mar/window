@@ -1095,6 +1095,10 @@ textarea:focus {
   padding: 1rem 5rem;
 }
 
+.invalid { 
+  border-color: red; 
+}
+
 /*Media*/
 @media (max-width: 1400px) {
   .main {

@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   let modalState = {
     form: 0,
-    type: "tree",
+    type: "tree"
   };
   changeModalState(modalState);
 
