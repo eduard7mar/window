@@ -3,6 +3,8 @@ import modals from "./modules/modals";
 import tabs from "./modules/tabs";
 import forms from "./modules/forms";
 import changeModalState from "./modules/changeModalState";
+import timer from "./modules/timer";
+import images from "./modules/images";
 
 window.addEventListener("DOMContentLoaded", () => {
   "use strict";
@@ -11,9 +13,11 @@ window.addEventListener("DOMContentLoaded", () => {
     form: 0,
     type: "tree"
   };
+  let deadline = "2024-05-05 00:00";
+
   changeModalState(modalState);
 
-  modals(modalState);
+  modals();
   tabs(".glazing_slider", ".glazing_block", ".glazing_content", "active");
   tabs(
     ".decoration_slider",
@@ -29,4 +33,6 @@ window.addEventListener("DOMContentLoaded", () => {
     "inline-block"
   );
   forms(modalState);
+  timer(".container1", deadline);
+  images();
 });

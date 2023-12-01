@@ -1,72 +1,57 @@
-const modals = (state) => {
-  function bindModal(
-    triggerSelector,
-    modalSelector,
-    closeSelector,
-    closeClickOverlay = true
-  ) {
+const modals = () => {
+  function bindModal(triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) {
     const trigger = document.querySelectorAll(triggerSelector),
       modal = document.querySelector(modalSelector),
       close = document.querySelector(closeSelector),
       windows = document.querySelectorAll("[data-modal]"),
       firstButton = document.querySelector(".popup_calc_button"),
-      secondButton = document.querySelector(".popup_calc_profile_button"),
       widthInput = document.getElementById("width"),
-      heightInput = document.getElementById("height");
+      heightInput = document.getElementById("height"),
+      headerWarning = document.getElementById("choose"),
+      scroll = calcScroll();
 
     trigger.forEach((item) => {
       item.addEventListener("click", (e) => {
-        if (e.target) {
+        if (e.target.classList.contains("popup_calc_button")) {
           e.preventDefault();
-        }
+          if (widthInput.value !== "" && heightInput.value !== "")  {
+            windows.forEach((item) => {
+              item.style.display = "none";
+            });
+    
+            modal.style.display = "block";
+            document.body.style.overflow = "hidden";
+            document.body.style.marginRight = `${scroll}px`;
 
-        if (!state.width && !state.height) {
-          firstButton.disabled = true;
-          firstButton.style.opacity = 0.5;
-          widthInput.style.border = "1px solid red";
-          heightInput.style.border = "1px solid red";
+            headerWarning.classList.remove("warning");
+            firstButton.classList.remove("disabled");
+          } else {
+            widthInput.classList.add("error");
+            heightInput.classList.add("error");
+            headerWarning.classList.add("warning");
+            firstButton.classList.add("disabled");
+          }
+
         } else {
-          firstButton.disabled = false;
-          firstButton.style.opacity = 1;
-          widthInput.style.border = "1px solid #ccc";
-          heightInput.style.border = "1px solid red";
+          e.preventDefault();
+          windows.forEach((item) => {
+            item.style.display = "none";
+          });
+  
+          modal.style.display = "block";
+          document.body.style.overflow = "hidden";
+          document.body.style.marginRight = `${scroll}px`;
         }
 
-        // function handleInputBlur(event) {
-        //   let input = event.target;
-        //   if (!input.value) {
-        //     input.classList.add('invalid');
-        //   }
-        // }
-        
-        // function handleInputFocus(event) {
-        //   let input = event.target;
-        //   if (input.classList.contains('invalid')) {
-        //     input.classList.remove('invalid');
-        //   }
-        // }
-        
-        // widthInput.addEventListener('blur', handleInputBlur);
-        // widthInput.addEventListener('focus', handleInputFocus);
-        
-        // heightInput.addEventListener('blur', handleInputBlur);
-        // heightInput.addEventListener('focus', handleInputFocus);
+        widthInput.addEventListener("input", resetErrorColor);
+        heightInput.addEventListener("input", resetErrorColor);
 
-
-        // if (state.profile) {
-        //   secondButton.disabled = false;
-        //   secondButton.style.opacity = 1;
-        // } else {
-        //   secondButton.disabled = true;
-        //   secondButton.style.opacity = 0.5;
-        // }
-
-        windows.forEach((item) => {
-          item.style.display = "none";
-        });
-
-        modal.style.display = "block";
-        document.body.style.overflow = "hidden";
+        function resetErrorColor() {
+          widthInput.classList.remove("error");
+          heightInput.classList.remove("error");
+          headerWarning.classList.remove("warning");
+          firstButton.classList.remove("disabled");
+        }
       });
     });
 
@@ -77,6 +62,7 @@ const modals = (state) => {
 
       modal.style.display = "none";
       document.body.style.overflow = "";
+      document.body.style.marginRight = `0px`;
       //   document.body.classList.remove("modal-open");
     });
 
@@ -89,6 +75,7 @@ const modals = (state) => {
 
         modal.style.display = "none";
         document.body.style.overflow = "";
+        document.body.style.marginRight = `0px`;
         // document.body.classList.remove("modal-open");
       }
     });
@@ -98,8 +85,24 @@ const modals = (state) => {
     setTimeout(function () {
       document.querySelector(selector).style.display = "block";
       document.body.style.overflow = "hidden";
+      document.body.style.marginRight = `${scroll}px`;
     }, time);
   }
+
+  function calcScroll() {
+    let div = document.createElement('div');
+
+    div.style.width = '50px';
+    div.style.height = '50px';
+    div.style.overflowY = 'scroll';
+    div.style.visibility = 'hidden';
+
+    document.body.appendChild(div);
+    let scrollWidth = div.offsetWidth - div.clientWidth;
+    div.remove();
+
+    return scrollWidth;
+}
 
   bindModal(
     ".popup_engineer_btn",

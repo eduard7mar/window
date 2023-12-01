@@ -14,12 +14,6 @@ const clearForm = () => {
 
     windowContent[0].style.display = "inline-block";
     windowTab[0].classList.add("do_image_more");
-
-
-    windowProfile.forEach(item => {
-        item.checked = false;
-    });
-
     
     windowType.value = "tree";
   };
