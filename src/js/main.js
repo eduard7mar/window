@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   let modalState = {
     form: 0,
-    type: "tree"
+    type: "tree",
   };
   let deadline = "2024-05-05 00:00";
 
